@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import org.angelsl.minecraft.randomshit.fontwidth.MinecraftFontWidthCalculator;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class Lister {
 
     private HelpList helpList;
     private Player player;
     private String plugin;
-
     private int maxPages;
     private int page;
     private ArrayList<HelpEntry> sortedEntries;
@@ -27,12 +25,16 @@ public class Lister {
         this(helpList, null, player);
     }
 
-
     public void setPage(int page) {
         this.page = page;
         int start = (page - 1) * HelpSettings.entriesPerPage;
-        sortedEntries = helpList.getSortedHelp(player, start, HelpSettings.entriesPerPage);
-        maxPages = (int) Math.ceil(helpList.getMaxEntries(player) / (double) HelpSettings.entriesPerPage);
+        if (plugin == null) {
+            sortedEntries = helpList.getSortedHelp(player, start, HelpSettings.entriesPerPage);
+            maxPages = (int) Math.ceil(helpList.getMaxEntries(player) / (double) HelpSettings.entriesPerPage);
+        } else {
+            sortedEntries = helpList.getSortedHelp(player, start, HelpSettings.entriesPerPage, plugin);
+            maxPages = (int) Math.ceil(helpList.getMaxEntries(player, plugin) / (double) HelpSettings.entriesPerPage);
+        }
     }
 
     public void list() {
@@ -71,7 +73,11 @@ public class Lister {
     }
 
     public int getMaxPages(Player player) {
-        return (int) Math.ceil(helpList.getMaxEntries(player) / (double) HelpSettings.entriesPerPage);
+        if (plugin == null) {
+            return (int) Math.ceil(helpList.getMaxEntries(player) / (double) HelpSettings.entriesPerPage);
+        } else {
+            return (int) Math.ceil(helpList.getMaxEntries(player, plugin) / (double) HelpSettings.entriesPerPage);
+        }
     }
 
     public String whitespace(int length) {
