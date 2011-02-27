@@ -38,24 +38,39 @@ public class Lister {
     }
 
     public void list() {
-        String intro = "------------------- HELP (" + page + "/" + maxPages + ") -------------------";
-        player.sendMessage(ChatColor.YELLOW + intro);
+        ChatColor commandColor = ChatColor.RED;
+        ChatColor descriptionColor = ChatColor.WHITE;
+        ChatColor introColor = ChatColor.AQUA;
+        
+        String intro = "---------------------------------------------------";
+
+        if (plugin == null) {
+            String subtro = "HELP (" + page + "/" + maxPages + ")";
+            int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
+            player.sendMessage(introColor.toString() + whitespace(sizeRemaining/2) + subtro + whitespace(sizeRemaining/2));
+        } else {
+            String subtro = plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ")";
+            int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
+            player.sendMessage(introColor.toString() + whitespace(sizeRemaining/2) + subtro + whitespace(sizeRemaining/2));
+        }
+
         for (HelpEntry entry : sortedEntries) {
-
             StringBuilder entryBuilder = new StringBuilder();
+            entryBuilder.append(commandColor.toString());
             entryBuilder.append("/");
-            entryBuilder.append(entry.command);
+            entryBuilder.append(entry.command.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
+            entryBuilder.append(ChatColor.WHITE.toString());
             entryBuilder.append(" - ");
-
+            entryBuilder.append(descriptionColor.toString());
             //Find remaining length left
             int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(entryBuilder.toString());
 
             int descriptionSize = MinecraftFontWidthCalculator.getStringWidth(entry.description);
             if (sizeRemaining > descriptionSize) {
                 entryBuilder.append(whitespace(sizeRemaining - descriptionSize));
-                entryBuilder.append(entry.description);
+                entryBuilder.append(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
             } else if (sizeRemaining < descriptionSize) {
-                entryBuilder.append(substring(entry.description, sizeRemaining));
+                entryBuilder.append(substring(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()), sizeRemaining));
             }
 
             player.sendMessage(entryBuilder.toString());
