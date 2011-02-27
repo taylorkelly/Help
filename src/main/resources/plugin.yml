@@ -1,7 +1,7 @@
-name: MyWarp
-version: 1.10.2
-main: me.taylorkelly.mywarp.MyWarp
+name: Help
+version: 1.1
+main: me.taylorkelly.help.Help
 commands:
-  warp:
-    description: All of the MyWarp commands
-    usage: /<command> help - Displays the help for MyWarp
+  help:
+    description: Your friendly /help menu
+    usage: /<command> - Displays help for all commands
