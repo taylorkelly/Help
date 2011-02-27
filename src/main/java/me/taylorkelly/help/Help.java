@@ -27,6 +27,9 @@ public class Help extends JavaPlugin {
         HelpPermissions.initialize(getServer());
         HelpSettings.initialize(getDataFolder());
 
+        this.registerCommand("help", "Displays this menu!", this, true);
+        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this);
+
         HelpLogger.info(name + " " + version + " enabled");
     }
 
@@ -103,15 +106,15 @@ public class Help extends JavaPlugin {
         return helpList.registerCommand(command, description, plugin);
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, int priority) {
-        return helpList.registerCommand(command, description, plugin, priority);
+    public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
+        return helpList.registerCommand(command, description, plugin, main);
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, String ... permissions) {
         return helpList.registerCommand(command, description, plugin, permissions);
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, int priority, String ... permissions) {
-        return helpList.registerCommand(command, description, plugin, priority, permissions);
+    public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String ... permissions) {
+        return helpList.registerCommand(command, description, plugin, main, permissions);
     }
 }

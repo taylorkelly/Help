@@ -60,8 +60,8 @@ public class HelpList {
         return true;
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, int priority) {
-        HelpEntry entry = new HelpEntry(command, description, plugin, priority);
+    public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
+        HelpEntry entry = new HelpEntry(command, description, plugin, main);
         helpList.put(command, entry);
         return true;
     }
@@ -72,8 +72,8 @@ public class HelpList {
         return true;
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, int priority, String[] permissions) {
-        HelpEntry entry = new HelpEntry(command, description, plugin, priority, permissions);
+    public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String[] permissions) {
+        HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions);
         helpList.put(command, entry);
         return true;
     }

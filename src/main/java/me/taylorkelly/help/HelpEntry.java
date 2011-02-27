@@ -7,27 +7,27 @@ public class HelpEntry {
     public String command;
     public String description;
     public String[] permissions;
-    public int priority;
+    public boolean main;
     public Plugin plugin;
 
-    public HelpEntry(String command, String description, Plugin plugin, int priority, String[] permissions) {
+    public HelpEntry(String command, String description, Plugin plugin, boolean main, String[] permissions) {
         this.command = command;
         this.description = description;
         this.plugin = plugin;
-        this.priority = priority;
+        this.main = main;
         this.permissions = permissions;
     }
 
     public HelpEntry(String command, String description, Plugin plugin) {
-        this(command, description, plugin, 0, new String[]{});
+        this(command, description, plugin, false, new String[]{});
     }
 
-    public HelpEntry(String command, String description, Plugin plugin, int priority) {
-        this(command, description, plugin, priority, new String[]{});
+    public HelpEntry(String command, String description, Plugin plugin, boolean main) {
+        this(command, description, plugin, main, new String[]{});
     }
 
     public HelpEntry(String command, String description, Plugin plugin, String[] permissions) {
-        this(command, description, plugin, 0, permissions);
+        this(command, description, plugin, false, permissions);
     }
 
     public boolean playerCanUse(Player player) {

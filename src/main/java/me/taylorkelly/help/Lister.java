@@ -36,7 +36,7 @@ public class Lister {
     }
 
     public void list() {
-        String intro = "------------------- Page " + page + "/" + maxPages + " -------------------";
+        String intro = "------------------- HELP (" + page + "/" + maxPages + ") -------------------";
         player.sendMessage(ChatColor.YELLOW + intro);
         for (HelpEntry entry : sortedEntries) {
 
