@@ -59,7 +59,7 @@ public class HelpList {
 
     public ArrayList<HelpEntry> getSortedHelp(Player player, int start, int size, String plugin) {
         ArrayList<HelpEntry> ret = new ArrayList<HelpEntry>();
-        if (pluginHelpList.containsKey(plugin)) {
+        if (!pluginHelpList.containsKey(plugin)) {
             return ret;
         } else {
             List<String> names = new ArrayList<String>(pluginHelpList.get(plugin).keySet());
