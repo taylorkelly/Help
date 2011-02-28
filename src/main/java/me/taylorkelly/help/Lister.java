@@ -50,9 +50,13 @@ public class Lister {
             int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
             player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
         } else {
-            String subtro = " " + plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ") ";
-            int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
-            player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
+            if (sortedEntries.isEmpty()) {
+                player.sendMessage(ChatColor.RED.toString() + plugin + " has no Help entries");
+            } else {
+                String subtro = " " + plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ") ";
+                int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
+                player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
+            }
         }
 
         for (HelpEntry entry : sortedEntries) {
@@ -61,7 +65,7 @@ public class Lister {
             entryBuilder.append("/");
             entryBuilder.append(entry.command);
             entryBuilder.append(ChatColor.WHITE.toString());
-            entryBuilder.append(" - ");
+            entryBuilder.append(" : ");
             entryBuilder.append(descriptionColor.toString());
             //Find remaining length left
             int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(entryBuilder.toString());

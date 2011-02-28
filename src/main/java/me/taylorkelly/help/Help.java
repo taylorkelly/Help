@@ -27,8 +27,8 @@ public class Help extends JavaPlugin {
         HelpPermissions.initialize(getServer());
         HelpSettings.initialize(getDataFolder());
 
-        this.registerCommand("help", "Displays this menu!", this, true);
-        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this);
+        this.registerCommand("help", "Displays this menu!", this);
+        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this, true);
 
         HelpLogger.info(name + " " + version + " enabled");
     }
