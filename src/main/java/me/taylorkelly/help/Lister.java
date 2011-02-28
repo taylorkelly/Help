@@ -18,7 +18,7 @@ public class Lister {
     Lister(HelpList helpList, String plugin, Player player) {
         this.helpList = helpList;
         this.player = player;
-        this.plugin = plugin;
+        this.plugin = helpList.matchPlugin(plugin);
     }
 
     Lister(HelpList helpList, Player player) {

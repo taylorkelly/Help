@@ -63,10 +63,10 @@ public class HelpList {
 
     public ArrayList<HelpEntry> getSortedHelp(Player player, int start, int size, String plugin) {
         ArrayList<HelpEntry> ret = new ArrayList<HelpEntry>();
-        if (!pluginHelpList.containsKey(plugin.toLowerCase())) {
+        if (!pluginHelpList.containsKey(plugin)) {
             return ret;
         } else {
-            List<String> names = new ArrayList<String>(pluginHelpList.get(plugin.toLowerCase()).keySet());
+            List<String> names = new ArrayList<String>(pluginHelpList.get(plugin).keySet());
             Collator collator = Collator.getInstance();
             collator.setStrength(Collator.SECONDARY);
             Collections.sort(names, collator);
@@ -75,7 +75,7 @@ public class HelpList {
             int currentCount = 0;
             while (index < names.size() && ret.size() < size) {
                 String currName = names.get(index);
-                HelpEntry entry = pluginHelpList.get(plugin.toLowerCase()).get(currName);
+                HelpEntry entry = pluginHelpList.get(plugin).get(currName);
                 if (entry.playerCanUse(player)) {
                     if (currentCount >= start) {
                         ret.add(entry);
@@ -151,6 +151,15 @@ public class HelpList {
         }
     }
 
+    public String matchPlugin(String plugin) {
+        for (String pluginKey : pluginHelpList.keySet()) {
+            if (pluginKey.equalsIgnoreCase(plugin)) {
+                return pluginKey;
+            }
+        }
+        return plugin;
+    }
+
     public boolean registerCommand(String command, String description, String plugin) {
         HelpEntry entry = new HelpEntry(command, description, plugin);
         saveEntry(plugin, entry);
@@ -196,12 +205,12 @@ public class HelpList {
     }
 
     private void customSaveEntry(String plugin, HelpEntry entry) {
-        if (pluginHelpList.containsKey(plugin.toLowerCase())) {
-            pluginHelpList.get(plugin.toLowerCase()).put(entry.command, entry);
+        if (pluginHelpList.containsKey(plugin)) {
+            pluginHelpList.get(plugin).put(entry.command, entry);
         } else {
             HashMap<String, HelpEntry> map = new HashMap<String, HelpEntry>();
             map.put(entry.command, entry);
-            pluginHelpList.put(plugin.toLowerCase(), map);
+            pluginHelpList.put(plugin, map);
         }
     }
 

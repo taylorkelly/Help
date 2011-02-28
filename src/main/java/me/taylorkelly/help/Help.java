@@ -77,7 +77,7 @@ public class Help extends JavaPlugin {
                     /**
                      * /help reload
                      */
-                } else if (split.length == 1 && split[0].equalsIgnoreCase("plugins")) {
+                } else if (split.length == 1 && split[0].equalsIgnoreCase("reload")) {
                     helpList.reload(player, getDataFolder());
 
                     /**
