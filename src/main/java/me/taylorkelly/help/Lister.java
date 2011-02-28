@@ -40,35 +40,37 @@ public class Lister {
     public void list() {
         ChatColor commandColor = ChatColor.RED;
         ChatColor descriptionColor = ChatColor.WHITE;
-        ChatColor introColor = ChatColor.AQUA;
-        
+        ChatColor introDashColor = ChatColor.AQUA;
+        ChatColor introTextColor = ChatColor.WHITE;
+
         String intro = "---------------------------------------------------";
 
         if (plugin == null) {
-            String subtro = "HELP (" + page + "/" + maxPages + ")";
+            String subtro = " HELP (" + page + "/" + maxPages + ") ";
             int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
-            player.sendMessage(introColor.toString() + whitespace(sizeRemaining/2) + subtro + whitespace(sizeRemaining/2));
+            player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
         } else {
-            String subtro = plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ")";
+            String subtro = " " + plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ") ";
             int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
-            player.sendMessage(introColor.toString() + whitespace(sizeRemaining/2) + subtro + whitespace(sizeRemaining/2));
+            player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
         }
 
         for (HelpEntry entry : sortedEntries) {
             StringBuilder entryBuilder = new StringBuilder();
             entryBuilder.append(commandColor.toString());
             entryBuilder.append("/");
-            entryBuilder.append(entry.command.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
+            entryBuilder.append(entry.command);
             entryBuilder.append(ChatColor.WHITE.toString());
             entryBuilder.append(" - ");
             entryBuilder.append(descriptionColor.toString());
             //Find remaining length left
             int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(entryBuilder.toString());
+            entryBuilder = new StringBuilder(entryBuilder.toString().replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
 
             int descriptionSize = MinecraftFontWidthCalculator.getStringWidth(entry.description);
             if (sizeRemaining > descriptionSize) {
                 entryBuilder.append(whitespace(sizeRemaining - descriptionSize));
-                entryBuilder.append(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
+                entryBuilder.append(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
             } else if (sizeRemaining < descriptionSize) {
                 entryBuilder.append(substring(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()), sizeRemaining));
             }
@@ -102,6 +104,18 @@ public class Lister {
 
         for (int i = 0; i < length; i += spaceWidth) {
             ret.append(" ");
+        }
+
+        return ret.toString();
+    }
+
+    public String dashes(int length) {
+        int spaceWidth = MinecraftFontWidthCalculator.getStringWidth("-");
+
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0; i < length; i += spaceWidth) {
+            ret.append("-");
         }
 
         return ret.toString();
