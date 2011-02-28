@@ -23,6 +23,7 @@ public class Help extends JavaPlugin {
         version = this.getDescription().getVersion();
 
         helpList = new HelpList();
+        HelpLoader.load(this.getDataFolder(), helpList);
 
         HelpPermissions.initialize(getServer());
         HelpSettings.initialize(getDataFolder());
@@ -103,18 +104,18 @@ public class Help extends JavaPlugin {
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin) {
-        return helpList.registerCommand(command, description, plugin);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName());
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
-        return helpList.registerCommand(command, description, plugin, main);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main);
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, String ... permissions) {
-        return helpList.registerCommand(command, description, plugin, permissions);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), permissions);
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String ... permissions) {
-        return helpList.registerCommand(command, description, plugin, main, permissions);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, permissions);
     }
 }

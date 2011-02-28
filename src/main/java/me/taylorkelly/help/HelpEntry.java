@@ -8,9 +8,9 @@ public class HelpEntry {
     public String description;
     public String[] permissions;
     public boolean main;
-    public Plugin plugin;
+    public String plugin;
 
-    public HelpEntry(String command, String description, Plugin plugin, boolean main, String[] permissions) {
+    public HelpEntry(String command, String description, String plugin, boolean main, String[] permissions) {
         this.command = command;
         this.description = description;
         this.plugin = plugin;
@@ -18,15 +18,15 @@ public class HelpEntry {
         this.permissions = permissions;
     }
 
-    public HelpEntry(String command, String description, Plugin plugin) {
+    public HelpEntry(String command, String description, String plugin) {
         this(command, description, plugin, false, new String[]{});
     }
 
-    public HelpEntry(String command, String description, Plugin plugin, boolean main) {
+    public HelpEntry(String command, String description, String plugin, boolean main) {
         this(command, description, plugin, main, new String[]{});
     }
 
-    public HelpEntry(String command, String description, Plugin plugin, String[] permissions) {
+    public HelpEntry(String command, String description, String plugin, String[] permissions) {
         this(command, description, plugin, false, permissions);
     }
 
@@ -40,9 +40,5 @@ public class HelpEntry {
             }
         }
         return false;
-    }
-
-    public boolean pluginIsEnabled() {
-        return (plugin != null && plugin.isEnabled());
     }
 }

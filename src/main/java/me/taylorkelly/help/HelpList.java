@@ -107,13 +107,13 @@ public class HelpList {
         }
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin) {
+    public boolean registerCommand(String command, String description, String plugin) {
         HelpEntry entry = new HelpEntry(command, description, plugin);
         saveEntry(plugin, entry);
         return true;
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
+    public boolean registerCommand(String command, String description, String plugin, boolean main) {
         HelpEntry entry = new HelpEntry(command, description, plugin, main);
         if (main) {
             mainHelpList.put(command, entry);
@@ -122,13 +122,13 @@ public class HelpList {
         return true;
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, String[] permissions) {
+    public boolean registerCommand(String command, String description, String plugin, String[] permissions) {
         HelpEntry entry = new HelpEntry(command, description, plugin, permissions);
         saveEntry(plugin, entry);
         return true;
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String[] permissions) {
+    public boolean registerCommand(String command, String description, String plugin, boolean main, String[] permissions) {
         HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions);
         if (main) {
             mainHelpList.put(command, entry);
@@ -137,14 +137,13 @@ public class HelpList {
         return true;
     }
 
-    private void saveEntry(Plugin plugin, HelpEntry entry) {
-        String name = plugin.getDescription().getName();
-        if (pluginHelpList.containsKey(name)) {
-            pluginHelpList.get(name).put(entry.command, entry);
+    private void saveEntry(String plugin, HelpEntry entry) {
+        if (pluginHelpList.containsKey(plugin)) {
+            pluginHelpList.get(plugin).put(entry.command, entry);
         } else {
             HashMap<String, HelpEntry> map = new HashMap<String, HelpEntry>();
             map.put(entry.command, entry);
-            pluginHelpList.put(name, map);
+            pluginHelpList.put(plugin, map);
         }
     }
 }
