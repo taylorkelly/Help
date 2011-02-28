@@ -17,12 +17,14 @@ public class HelpLoader {
         final Yaml yaml = new Yaml(new SafeConstructor());
         Map<String, Object> root;
         if (!extraHelp.exists()) {
+            HelpLogger.info("No extra help entries loaded");
             return;
         }
         FileInputStream input = null;
         try {
             input = new FileInputStream(extraHelp);
             root = (Map<String, Object>) yaml.load(new UnicodeReader(input));
+            int count = 0;
 
             for (String helpKey : root.keySet()) {
                 Map<String, Object> helpNode = (Map<String, Object>) root.get(helpKey);
@@ -44,7 +46,7 @@ public class HelpLoader {
                 String plugin = helpNode.get("plugin").toString();
 
                 boolean main = false;
-                if (!helpNode.containsKey("main")) {
+                if (helpNode.containsKey("main")) {
                     if (helpNode.get("main") instanceof Boolean) {
                         main = (Boolean)helpNode.get("main");
                     } else {
@@ -53,7 +55,7 @@ public class HelpLoader {
                 }
 
                 ArrayList<String> permissions = new ArrayList<String>();
-                if (!helpNode.containsKey("permissions")) {
+                if (helpNode.containsKey("permissions")) {
                     if (helpNode.get("permissions") instanceof List) {
                         for(Object permission : (List)helpNode.get("permissions")) {
                             permissions.add(permission.toString());
@@ -64,7 +66,9 @@ public class HelpLoader {
                 }
 
                 list.registerCommand(command, description, plugin, main, permissions.toArray(new String[]{}));
+                count++;
             }
+            HelpLogger.info(count + " extra help entries loaded");
         } catch (Exception ex) {
             HelpLogger.severe("Error!", ex);
         } finally {
