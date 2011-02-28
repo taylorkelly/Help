@@ -65,7 +65,7 @@ public class HelpLoader {
                     }
                 }
 
-                list.registerCommand(command, description, plugin, main, permissions.toArray(new String[]{}));
+                list.customRegisterCommand(command, description, plugin, main, permissions.toArray(new String[]{}));
                 count++;
             }
             HelpLogger.info(count + " extra help entries loaded");

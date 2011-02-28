@@ -1,5 +1,6 @@
 package me.taylorkelly.help;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class HelpEntry {
@@ -42,5 +43,26 @@ public class HelpEntry {
             }
         }
         return false;
+    }
+
+    public String message() {
+        ChatColor commandColor = ChatColor.RED;
+        ChatColor pluginColor = ChatColor.GREEN;
+        ChatColor descriptionColor = ChatColor.WHITE;
+
+        StringBuilder builder = new StringBuilder(commandColor.toString());
+        builder.append("/");
+        builder.append(command);
+        builder.append(ChatColor.WHITE.toString());
+        builder.append(" : ");
+        builder.append("(via ");
+        builder.append(pluginColor.toString());
+        builder.append(plugin);
+        builder.append(ChatColor.WHITE.toString());
+        builder.append(") ");
+        builder.append(descriptionColor.toString());
+        builder.append(description);
+
+        return builder.toString();
     }
 }

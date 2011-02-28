@@ -25,14 +25,18 @@ public class Help extends JavaPlugin {
     public void onEnable() {
         name = this.getDescription().getName();
         version = this.getDescription().getVersion();
-        
+
         HelpLoader.load(this.getDataFolder(), helpList);
 
         HelpPermissions.initialize(getServer());
         HelpSettings.initialize(getDataFolder());
 
-        this.registerCommand("help", "Displays this menu!", this);
-        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this, true);
+        this.registerCommand("help Help", "Displays more /help options", this, true);
+        this.registerCommand("help", "Displays the basic Help menu", this);
+        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this);
+        this.registerCommand("help plugins", "Show all the plugins with Help entries", this);
+        this.registerCommand("help search [query]", "Search the help entries for [query]", this);
+        this.registerCommand("help reload", "Reload the ExtraHelp.yml entries", this);
 
         HelpLogger.info(name + " " + version + " enabled");
     }
@@ -65,7 +69,35 @@ public class Help extends JavaPlugin {
                     lister.list();
 
                     /**
-                     * /help <plugin> (#)
+                     * /help plugins
+                     */
+                } else if (split.length == 1 && split[0].equalsIgnoreCase("plugins")) {
+                    helpList.listPlugins(player);
+
+                    /**
+                     * /help reload
+                     */
+                } else if (split.length == 1 && split[0].equalsIgnoreCase("plugins")) {
+                    helpList.reload(player, getDataFolder());
+
+                    /**
+                     * /help search [query]
+                     */
+                } else if (split.length > 1 && split[0].equalsIgnoreCase("search")) {
+                    String name = "";
+                    for (int i = 1; i < split.length; i++) {
+                        name += split[i];
+                        if (i + 1 < split.length) {
+                            name += " ";
+                        }
+                    }
+                    Searcher searcher = new Searcher(helpList);
+                    searcher.addPlayer(player);
+                    searcher.setQuery(name);
+                    searcher.search();
+
+                    /**
+                     * /help [plugin] (#)
                      */
                 } else if (split.length == 1 || (split.length == 2 && isInteger(split[1]))) {
                     Lister lister = new Lister(helpList, split[0], player);
@@ -83,11 +115,6 @@ public class Help extends JavaPlugin {
                         lister.setPage(1);
                     }
                     lister.list();
-
-                    /**
-                     * /help help
-                     */
-                } else if (split.length == 1 && split[0].equalsIgnoreCase("help")) {
                 } else {
                     return false;
                 }
@@ -114,11 +141,11 @@ public class Help extends JavaPlugin {
         return helpList.registerCommand(command, description, plugin.getDescription().getName(), main);
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, String ... permissions) {
+    public boolean registerCommand(String command, String description, Plugin plugin, String... permissions) {
         return helpList.registerCommand(command, description, plugin.getDescription().getName(), permissions);
     }
 
-    public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String ... permissions) {
+    public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String... permissions) {
         return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, permissions);
     }
 }
