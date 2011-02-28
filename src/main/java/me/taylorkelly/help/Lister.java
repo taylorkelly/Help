@@ -43,7 +43,7 @@ public class Lister {
         ChatColor introDashColor = ChatColor.GOLD;
         ChatColor introTextColor = ChatColor.WHITE;
 
-        String intro = "---------------------------------------------------";
+        String intro = "-------------------------------------------------------";
 
         if (plugin == null) {
             String subtro = " HELP (" + page + "/" + maxPages + ") ";
@@ -114,12 +114,12 @@ public class Lister {
     }
 
     public String dashes(int length) {
-        int spaceWidth = MinecraftFontWidthCalculator.getStringWidth("-");
+        int spaceWidth = MinecraftFontWidthCalculator.getStringWidth("~");
 
         StringBuilder ret = new StringBuilder();
 
         for (int i = 0; i < length; i += spaceWidth) {
-            ret.append("-");
+            ret.append("~");
         }
 
         return ret.toString();

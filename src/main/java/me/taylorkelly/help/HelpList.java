@@ -234,6 +234,9 @@ public class HelpList {
         HelpLoader.load(dataFolder, this);
 
         for (HelpEntry entry : savedList) {
+            if (entry.main) {
+                mainHelpList.put(entry.command, entry);
+            }
             customSaveEntry(entry.plugin, entry);
         }
 
