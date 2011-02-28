@@ -64,7 +64,7 @@ public class HelpLoader {
                         permissions.add(helpNode.get("permissions").toString());
                     }
                 }
-
+                
                 list.customRegisterCommand(command, description, plugin, main, permissions.toArray(new String[]{}));
                 count++;
             }

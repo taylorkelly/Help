@@ -33,7 +33,7 @@ public class Help extends JavaPlugin {
 
         this.registerCommand("help Help", "Displays more /help options", this, true);
         this.registerCommand("help", "Displays the basic Help menu", this);
-        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this);
+        this.registerCommand("help [plugin]", "Displays the full help for [plugin]", this, true);
         this.registerCommand("help plugins", "Show all the plugins with Help entries", this);
         this.registerCommand("help search [query]", "Search the help entries for [query]", this);
         this.registerCommand("help reload", "Reload the ExtraHelp.yml entries", this);

@@ -37,8 +37,7 @@ public class HelpEntry {
         for (String permission : permissions) {
             if(permission.equalsIgnoreCase("OP") && player.isOp()) {
                 return true;
-            }
-            if(HelpPermissions.permission(player, permission)) {
+            } else if(HelpPermissions.permission(player, permission)) {
                 return true;
             }
         }

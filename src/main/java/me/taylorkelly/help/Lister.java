@@ -42,19 +42,23 @@ public class Lister {
         ChatColor descriptionColor = ChatColor.WHITE;
         ChatColor introDashColor = ChatColor.GOLD;
         ChatColor introTextColor = ChatColor.WHITE;
-        int width = 300;
+        int width = 325;
 
         if (plugin == null) {
             String subtro = " HELP (" + page + "/" + maxPages + ") ";
-            int sizeRemaining = width - MinecraftFontWidthCalculator.getStringWidth(subtro);
-            player.sendMessage(introDashColor.toString() + whitespace(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + whitespace(sizeRemaining / 2));
+            int sizeRemaining = (int) ((width - MinecraftFontWidthCalculator.getStringWidth(subtro)) * 0.93);
+            String dashes = dashes(sizeRemaining / 2);
+            sizeRemaining = (int) ((width - MinecraftFontWidthCalculator.getStringWidth(dashes + subtro)) * 0.93);
+            player.sendMessage(introDashColor.toString() + dashes + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining));
         } else {
             if (sortedEntries.isEmpty()) {
                 player.sendMessage(ChatColor.RED.toString() + plugin + " has no Help entries");
             } else {
                 String subtro = " " + plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ") ";
-                int sizeRemaining = width - MinecraftFontWidthCalculator.getStringWidth(subtro);
-                player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
+                int sizeRemaining = (int) ((width - MinecraftFontWidthCalculator.getStringWidth(subtro)) * 0.93);
+                String dashes = dashes(sizeRemaining / 2);
+                sizeRemaining = (int) ((width - MinecraftFontWidthCalculator.getStringWidth(dashes + subtro)) * 0.93);
+                player.sendMessage(introDashColor.toString() + dashes + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining));
             }
         }
 
@@ -75,7 +79,7 @@ public class Lister {
                 entryBuilder.append(whitespace(sizeRemaining - descriptionSize));
                 entryBuilder.append(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
             } else if (sizeRemaining < descriptionSize) {
-                entryBuilder.append(substring(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()), sizeRemaining));
+                entryBuilder.append(substring(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()), sizeRemaining));
             }
 
             player.sendMessage(entryBuilder.toString());
@@ -101,11 +105,11 @@ public class Lister {
     }
 
     public String whitespace(int length) {
-        int spaceWidth = MinecraftFontWidthCalculator.getStringWidth(" ");
+        int spaceWidth = MinecraftFontWidthCalculator.getCharWidth(' ');
 
         StringBuilder ret = new StringBuilder();
 
-        for (int i = 0; i < length; i += spaceWidth) {
+        for (int i = 0; i < length-spaceWidth; i += spaceWidth) {
             ret.append(" ");
         }
 
@@ -113,12 +117,12 @@ public class Lister {
     }
 
     public String dashes(int length) {
-        int spaceWidth = MinecraftFontWidthCalculator.getStringWidth("~");
+        int spaceWidth = MinecraftFontWidthCalculator.getCharWidth('-');
 
         StringBuilder ret = new StringBuilder();
 
-        for (int i = 0; i < length; i += spaceWidth) {
-            ret.append("~");
+        for (int i = 0; i < length-spaceWidth; i += spaceWidth) {
+            ret.append("-");
         }
 
         return ret.toString();
