@@ -27,6 +27,13 @@
         <type>jar</type>
 	<scope>compile</scope>
     </dependency>
+    <dependency>
+        <groupId>org.anjocaido</groupId>
+        <artifactId>groupmanager</artifactId>
+        <version>0.99</version>
+        <type>jar</type>
+	<scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
     <finalName>${project.name}</finalName>

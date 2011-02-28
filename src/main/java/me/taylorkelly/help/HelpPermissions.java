@@ -5,27 +5,45 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
+import org.anjocaido.groupmanager.GroupManager;
 
 public class HelpPermissions {
-    private static Permissions permissionsPlugin;
-    private static boolean permissionsEnabled = false;
+    private enum PermissionHandler {
+
+        PERMISSIONS, GROUP_MANAGER, NONE
+    }
+    private static PermissionHandler handler;
+    private static Plugin permissionPlugin;
 
     public static void initialize(Server server) {
-        Plugin test = server.getPluginManager().getPlugin("Permissions");
-        if (test != null) {
-            permissionsPlugin = ((Permissions) test);
-            permissionsEnabled = true;
-            HelpLogger.info("Permissions enabled.");
+        Plugin groupManager = server.getPluginManager().getPlugin("GroupManager");
+        Plugin permissions = server.getPluginManager().getPlugin("Permissions");
+
+        if (groupManager != null) {
+            permissionPlugin = groupManager;
+            handler = PermissionHandler.GROUP_MANAGER;
+            String version = groupManager.getDescription().getVersion();
+            HelpLogger.info("Permissions enabled using: GroupManager v" + version);
+        } else if (permissions != null) {
+            permissionPlugin = permissions;
+            handler = PermissionHandler.PERMISSIONS;
+            String version = permissions.getDescription().getVersion();
+            HelpLogger.info("Permissions enabled using: Permissions v" + version);
         } else {
-            HelpLogger.warning("Permissions isn't loaded, all commands will be visible");
+            HelpLogger.severe("A permission plugin isn't loaded.");
         }
     }
 
     public static boolean permission(Player player, String string) {
-        if(permissionsEnabled) {
-            return permissionsPlugin.Security.permission(player, string);
-        } else {
-            return true;
+        switch (handler) {
+            case PERMISSIONS:
+                return ((Permissions)permissionPlugin).getHandler().permission(player, string);
+            case GROUP_MANAGER:
+                return ((GroupManager)permissionPlugin).getHandler().permission(player, string);
+            case NONE:
+                return true;
+            default:
+                return true;
         }
     }
 }

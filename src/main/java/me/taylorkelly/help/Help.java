@@ -13,6 +13,10 @@ public class Help extends JavaPlugin {
     private String version;
     private HelpList helpList;
 
+    public Help() {
+        helpList = new HelpList();
+    }
+
     @Override
     public void onDisable() {
     }
@@ -21,8 +25,7 @@ public class Help extends JavaPlugin {
     public void onEnable() {
         name = this.getDescription().getName();
         version = this.getDescription().getVersion();
-
-        helpList = new HelpList();
+        
         HelpLoader.load(this.getDataFolder(), helpList);
 
         HelpPermissions.initialize(getServer());

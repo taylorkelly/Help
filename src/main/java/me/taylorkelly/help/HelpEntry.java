@@ -1,7 +1,6 @@
 package me.taylorkelly.help;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class HelpEntry {
     public String command;
@@ -35,6 +34,9 @@ public class HelpEntry {
             return true;
         }
         for (String permission : permissions) {
+            if(permission.equalsIgnoreCase("OP") && player.isOp()) {
+                return true;
+            }
             if(HelpPermissions.permission(player, permission)) {
                 return true;
             }

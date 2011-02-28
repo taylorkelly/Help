@@ -40,7 +40,7 @@ public class Lister {
     public void list() {
         ChatColor commandColor = ChatColor.RED;
         ChatColor descriptionColor = ChatColor.WHITE;
-        ChatColor introDashColor = ChatColor.AQUA;
+        ChatColor introDashColor = ChatColor.GOLD;
         ChatColor introTextColor = ChatColor.WHITE;
 
         String intro = "---------------------------------------------------";
