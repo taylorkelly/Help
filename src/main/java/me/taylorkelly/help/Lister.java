@@ -42,19 +42,18 @@ public class Lister {
         ChatColor descriptionColor = ChatColor.WHITE;
         ChatColor introDashColor = ChatColor.GOLD;
         ChatColor introTextColor = ChatColor.WHITE;
-
-        String intro = "-------------------------------------------------------";
+        int width = 300;
 
         if (plugin == null) {
             String subtro = " HELP (" + page + "/" + maxPages + ") ";
-            int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
-            player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
+            int sizeRemaining = width - MinecraftFontWidthCalculator.getStringWidth(subtro);
+            player.sendMessage(introDashColor.toString() + whitespace(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + whitespace(sizeRemaining / 2));
         } else {
             if (sortedEntries.isEmpty()) {
                 player.sendMessage(ChatColor.RED.toString() + plugin + " has no Help entries");
             } else {
                 String subtro = " " + plugin.toUpperCase() + " HELP (" + page + "/" + maxPages + ") ";
-                int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(subtro);
+                int sizeRemaining = width - MinecraftFontWidthCalculator.getStringWidth(subtro);
                 player.sendMessage(introDashColor.toString() + dashes(sizeRemaining / 2) + introTextColor.toString() + subtro + introDashColor.toString() + dashes(sizeRemaining / 2));
             }
         }
@@ -68,7 +67,7 @@ public class Lister {
             entryBuilder.append(" : ");
             entryBuilder.append(descriptionColor.toString());
             //Find remaining length left
-            int sizeRemaining = MinecraftFontWidthCalculator.getStringWidth(intro) - MinecraftFontWidthCalculator.getStringWidth(entryBuilder.toString());
+            int sizeRemaining = width - MinecraftFontWidthCalculator.getStringWidth(entryBuilder.toString());
             entryBuilder = new StringBuilder(entryBuilder.toString().replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
 
             int descriptionSize = MinecraftFontWidthCalculator.getStringWidth(entry.description);
