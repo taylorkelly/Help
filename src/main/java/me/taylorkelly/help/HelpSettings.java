@@ -15,7 +15,7 @@ public class HelpSettings {
 
         File configFile  = new File(dataFolder, settingsFile);
         PropertiesFile file = new PropertiesFile(configFile);
-        entriesPerPage = file.getInt("entriesPerPage", 8, "Number of entries per page (recom. 8)");
+        entriesPerPage = file.getInt("entriesPerPage", 9, "Number of entries per page (recom. 9)");
         file.save();
     }
 }
