@@ -1,5 +1,5 @@
 name: Help
-version: 1.0
+version: 0.1
 main: me.taylorkelly.help.Help
 commands:
   help:

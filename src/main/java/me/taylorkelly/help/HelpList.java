@@ -217,7 +217,7 @@ public class HelpList {
     public void listPlugins(Player player) {
         StringBuilder list = new StringBuilder();
         for (String plugin : pluginHelpList.keySet()) {
-            list.append(ChatColor.RED.toString());
+            list.append(ChatColor.GREEN.toString());
             list.append(plugin);
             list.append(ChatColor.WHITE.toString());
             list.append(", ");
