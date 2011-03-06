@@ -34,12 +34,12 @@ public class HelpPermissions {
         }
     }
 
-    public static boolean permission(Player player, String string) {
+    public static boolean permission(Player player, String permission) {
         switch (handler) {
             case PERMISSIONS:
-                return ((Permissions)permissionPlugin).getHandler().permission(player, string);
+                return ((Permissions)permissionPlugin).getHandler().permission(player, permission);
             case GROUP_MANAGER:
-                return ((GroupManager)permissionPlugin).getHandler().permission(player, string);
+                return ((GroupManager)permissionPlugin).getWorldsHolder().getWorldPermissions(player).has(player, permission);
             case NONE:
                 return true;
             default:
