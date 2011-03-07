@@ -30,7 +30,8 @@ public class HelpPermissions {
             String version = permissions.getDescription().getVersion();
             HelpLogger.info("Permissions enabled using: Permissions v" + version);
         } else {
-            HelpLogger.severe("A permission plugin isn't loaded.");
+            handler = PermissionHandler.NONE;
+            HelpLogger.warning("A permission plugin isn't loaded.");
         }
     }
 
