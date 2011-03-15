@@ -4,7 +4,7 @@ import java.io.File;
 
 public class HelpSettings {
     
-    private static final String settingsFile = "Help.settings";
+    private static final String settingsFile = "Help.yml";
 
     public static int entriesPerPage;
 
@@ -13,9 +13,14 @@ public class HelpSettings {
             dataFolder.mkdirs();
         }
 
+        if(new File(dataFolder, "Help.settings").exists()) {
+            new File(dataFolder, "Help.settings").delete();
+        }
+
         File configFile  = new File(dataFolder, settingsFile);
-        PropertiesFile file = new PropertiesFile(configFile);
-        entriesPerPage = file.getInt("entriesPerPage", 9, "Number of entries per page (recom. 9)");
-        file.save();
+        BetterConfig config = new BetterConfig(configFile);
+        config.load();
+        entriesPerPage = config.getInt("entriesPerPage", 9);
+        config.save();
     }
 }
