@@ -79,7 +79,8 @@ public class Lister {
                 entryBuilder.append(whitespace(sizeRemaining - descriptionSize));
                 entryBuilder.append(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
             } else if (sizeRemaining < descriptionSize) {
-                entryBuilder.append(substring(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()), sizeRemaining));
+                player.sendMessage(entryBuilder.toString());
+                player.sendMessage(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
             }
 
             player.sendMessage(entryBuilder.toString());

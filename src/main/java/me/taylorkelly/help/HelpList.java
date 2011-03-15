@@ -73,12 +73,14 @@ public class HelpList {
 
             int index = 0;
             int currentCount = 0;
-            while (index < names.size() && ret.size() < size) {
+            int lineLength = 0;
+            while (index < names.size() && lineLength < size) {
                 String currName = names.get(index);
                 HelpEntry entry = pluginHelpList.get(plugin).get(currName);
                 if (entry.playerCanUse(player)) {
                     if (currentCount >= start) {
                         ret.add(entry);
+                        lineLength+=entry.lineLength;
                     } else {
                         currentCount++;
                     }
