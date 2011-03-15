@@ -233,7 +233,7 @@ public class HelpList {
         mainHelpList = new HashMap<String, HelpEntry>();
         pluginHelpList = new HashMap<String, HashMap<String, HelpEntry>>();
 
-        HelpLoader.load(dataFolder, this);
+        LegacyHelpLoader.load(dataFolder, this);
 
         for (HelpEntry entry : savedList) {
             if (entry.main) {

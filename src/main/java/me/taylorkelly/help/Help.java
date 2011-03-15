@@ -1,5 +1,6 @@
 package me.taylorkelly.help;
 
+import java.io.File;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,14 @@ public class Help extends JavaPlugin {
 
     public Help() {
         helpList = new HelpList();
+        File folder = new File("plugins", "Help");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        File file = new File(folder, "ExtraHelp");
+        if (file.exists()) {
+            file.mkdirs();
+        }
     }
 
     @Override
@@ -26,7 +35,7 @@ public class Help extends JavaPlugin {
         name = this.getDescription().getName();
         version = this.getDescription().getVersion();
 
-        HelpLoader.load(this.getDataFolder(), helpList);
+        LegacyHelpLoader.load(this.getDataFolder(), helpList);
 
         HelpPermissions.initialize(getServer());
         HelpSettings.initialize(getDataFolder());
