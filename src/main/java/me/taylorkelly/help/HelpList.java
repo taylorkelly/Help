@@ -162,23 +162,30 @@ public class HelpList {
         return plugin;
     }
 
-    public boolean registerCommand(String command, String description, String plugin, boolean main, String[] permissions) {
+    public boolean registerCommand(String command, String description, String plugin, boolean main, String[] permissions, File dataFolder) {
         HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions, true);
-        if (main) {
+        entry.save(dataFolder);
+        if (main && !mainHelpList.containsKey(command)) {
             mainHelpList.put(command, entry);
         }
-        saveEntry(plugin, entry);
+        savePluginEntry(plugin, entry);
         return true;
     }
 
-    private void saveEntry(String plugin, HelpEntry entry) {
-        customSaveEntry(plugin, entry);
+    private void savePluginEntry(String plugin, HelpEntry entry) {
+        customSaveEntry(plugin, entry, false);
         permaSaveEntry(entry);
     }
 
-    private void customSaveEntry(String plugin, HelpEntry entry) {
+    private void customSaveEntry(String plugin, HelpEntry entry, boolean priority) {
         if (pluginHelpList.containsKey(plugin)) {
-            pluginHelpList.get(plugin).put(entry.command, entry);
+            if (priority) {
+                pluginHelpList.get(plugin).put(entry.command, entry);
+            } else {
+                if (!pluginHelpList.get(plugin).containsKey(entry.command)) {
+                    pluginHelpList.get(plugin).put(entry.command, entry);
+                }
+            }
         } else {
             HashMap<String, HelpEntry> map = new HashMap<String, HelpEntry>();
             map.put(entry.command, entry);
@@ -206,10 +213,10 @@ public class HelpList {
         HelpLoader.load(dataFolder, this);
 
         for (HelpEntry entry : savedList) {
-            if (entry.main) {
+            if (entry.main && !mainHelpList.containsKey(entry.command)) {
                 mainHelpList.put(entry.command, entry);
             }
-            customSaveEntry(entry.plugin, entry);
+            customSaveEntry(entry.plugin, entry, false);
         }
 
         player.sendMessage(ChatColor.AQUA + "Successfully reloaded Help");
@@ -224,7 +231,7 @@ public class HelpList {
         if (main) {
             mainHelpList.put(command, entry);
         }
-        customSaveEntry(plugin, entry);
+        customSaveEntry(plugin, entry, true);
         return true;
     }
 }

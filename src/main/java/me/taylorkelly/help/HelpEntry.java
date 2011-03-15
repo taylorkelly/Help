@@ -1,5 +1,7 @@
 package me.taylorkelly.help;
 
+import java.io.File;
+import java.io.IOException;
 import org.angelsl.minecraft.randomshit.fontwidth.MinecraftFontWidthCalculator;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -93,5 +95,31 @@ public class HelpEntry {
         } else {
             return 1 + (int) Math.ceil((double) MinecraftFontWidthCalculator.getStringWidth("  " + entry.description) / width);
         }
+    }
+
+    void save(File dataFolder) {
+        File folder = new File(dataFolder, "ExtraHelp");
+        File file = new File(folder, plugin + "_orig.yml");
+        if (file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+            }
+        }
+        BetterConfig config = new BetterConfig(file);
+        config.load();
+
+        String node = command.replace(" ", "");
+        config.setProperty(node + ".command", command);
+        config.setProperty(node + ".description", description);
+        config.setProperty(node + ".plugin", plugin);
+        if (main) {
+            config.setProperty(node + ".main", main);
+        }
+        if (permissions.length != 0) {
+            config.setProperty(node + ".permissions", permissions);
+        }
+        config.setProperty(node + ".visible", true);
+        config.save();
     }
 }

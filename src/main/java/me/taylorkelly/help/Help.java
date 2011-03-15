@@ -144,22 +144,23 @@ public class Help extends JavaPlugin {
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName(), false, new String[]{});
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), false, new String[]{}, this.getDataFolder());
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, new String[]{});
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, new String[]{}, this.getDataFolder());
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, String... permissions) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName(), false, permissions);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), false, permissions, this.getDataFolder());
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String... permissions) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, permissions);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, permissions, this.getDataFolder());
     }
-    
+
     public enum HelpReciever {
+
         PLAYER, CONSOLE;
     }
 }
