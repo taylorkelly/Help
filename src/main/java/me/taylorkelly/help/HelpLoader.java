@@ -13,72 +13,84 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 public class HelpLoader {
 
     public static void load(File dataFolder, HelpList list) {
-        File extraHelp = new File(dataFolder, "ExtraHelp.yml");
-        final Yaml yaml = new Yaml(new SafeConstructor());
-        Map<String, Object> root;
-        if (!extraHelp.exists()) {
-            HelpLogger.info("No extra help entries loaded");
-            return;
+        File helpFolder = new File(dataFolder, "ExtraHelp");
+        if (helpFolder.exists()) {
+            helpFolder.mkdirs();
         }
-        FileInputStream input = null;
-        try {
-            input = new FileInputStream(extraHelp);
-            root = (Map<String, Object>) yaml.load(new UnicodeReader(input));
-            int count = 0;
+        int count = 0;
 
-            for (String helpKey : root.keySet()) {
-                Map<String, Object> helpNode = (Map<String, Object>) root.get(helpKey);
-
-                if (!helpNode.containsKey("command")) {
-                    HelpLogger.warning("A Help entry node is missing a command name");
-                    continue;
-                }
-                String command = helpNode.get("command").toString();
-                if (!helpNode.containsKey("description")) {
-                    HelpLogger.warning(command + "'s Help entry is missing a description");
-                    continue;
-                }
-                String description = helpNode.get("description").toString();
-                if (!helpNode.containsKey("plugin")) {
-                    HelpLogger.warning(command + "'s Help entry is missing a plugin");
-                    continue;
-                }
-                String plugin = helpNode.get("plugin").toString();
-
-                boolean main = false;
-                if (helpNode.containsKey("main")) {
-                    if (helpNode.get("main") instanceof Boolean) {
-                        main = (Boolean)helpNode.get("main");
-                    } else {
-                        HelpLogger.warning(command + "'s Help entry has main as a non-boolean. Defaulting to false");
-                    }
-                }
-
-                ArrayList<String> permissions = new ArrayList<String>();
-                if (helpNode.containsKey("permissions")) {
-                    if (helpNode.get("permissions") instanceof List) {
-                        for(Object permission : (List)helpNode.get("permissions")) {
-                            permissions.add(permission.toString());
-                        }
-                    } else {
-                        permissions.add(helpNode.get("permissions").toString());
-                    }
-                }
-                
-                list.customRegisterCommand(command, description, plugin, main, permissions.toArray(new String[]{}));
-                count++;
-            }
-            HelpLogger.info(count + " extra help entries loaded");
-        } catch (Exception ex) {
-            HelpLogger.severe("Error!", ex);
-        } finally {
+        for (File insideFile : helpFolder.listFiles(new YmlFilter())) {
+            System.out.println(insideFile);
+            final Yaml yaml = new Yaml(new SafeConstructor());
+            Map<String, Object> root;
+            FileInputStream input = null;
             try {
-                input.close();
-            } catch (IOException ex) {
+                input = new FileInputStream(insideFile);
+                root = (Map<String, Object>) yaml.load(new UnicodeReader(input));
+
+                for (String helpKey : root.keySet()) {
+                    Map<String, Object> helpNode = (Map<String, Object>) root.get(helpKey);
+
+                    String command = helpNode.get("command").toString();
+                    boolean main = false;
+                    String description = helpNode.get("description").toString();
+                    String plugin = helpNode.get("plugin").toString();
+                    boolean visible = true;
+                    ArrayList<String> permissions = new ArrayList<String>();
+
+
+                    if (!helpNode.containsKey("command")) {
+                        HelpLogger.warning("A Help entry node is missing a command name");
+                        continue;
+                    }
+                    if (!helpNode.containsKey("description")) {
+                        HelpLogger.warning(command + "'s Help entry is missing a description");
+                        continue;
+                    }
+                    if (!helpNode.containsKey("plugin")) {
+                        HelpLogger.warning(command + "'s Help entry is missing a 'plugin'");
+                        continue;
+                    }
+
+                    if (helpNode.containsKey("main")) {
+                        if (helpNode.get("main") instanceof Boolean) {
+                            main = (Boolean) helpNode.get("main");
+                        } else {
+                            HelpLogger.warning(command + "'s Help entry has 'main' as a non-boolean. Defaulting to false");
+                        }
+                    }
+
+                    if (helpNode.containsKey("visible")) {
+                        if (helpNode.get("visible") instanceof Boolean) {
+                            visible = (Boolean) helpNode.get("visible");
+                        } else {
+                            HelpLogger.warning(command + "'s Help entry has 'visible' as a non-boolean. Defaulting to true");
+                        }
+                    }
+
+                    if (helpNode.containsKey("permissions")) {
+                        if (helpNode.get("permissions") instanceof List) {
+                            for (Object permission : (List) helpNode.get("permissions")) {
+                                permissions.add(permission.toString());
+                            }
+                        } else {
+                            permissions.add(helpNode.get("permissions").toString());
+                        }
+                    }
+
+                    list.customRegisterCommand(command, description, plugin, main, permissions.toArray(new String[]{}), visible);
+                    count++;
+                }
+            } catch (Exception ex) {
                 HelpLogger.severe("Error!", ex);
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException ex) {
+                    HelpLogger.severe("Error!", ex);
+                }
             }
         }
+        HelpLogger.info(count + " extra help entries loaded");
     }
-
-
 }

@@ -36,6 +36,7 @@ public class Help extends JavaPlugin {
         version = this.getDescription().getVersion();
 
         LegacyHelpLoader.load(this.getDataFolder(), helpList);
+        HelpLoader.load(this.getDataFolder(), helpList);
 
         HelpPermissions.initialize(getServer());
         HelpSettings.initialize(getDataFolder());
@@ -129,7 +130,7 @@ public class Help extends JavaPlugin {
                 }
                 return true;
             }
-        }
+        } //TODO Console help
         return false;
     }
 
@@ -156,5 +157,9 @@ public class Help extends JavaPlugin {
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String... permissions) {
         return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, permissions);
+    }
+    
+    public enum HelpReciever {
+        PLAYER, CONSOLE;
     }
 }

@@ -12,27 +12,28 @@ public class HelpEntry {
     public boolean main;
     public String plugin;
     public int lineLength;
+    public boolean visible;
 
-    public HelpEntry(String command, String description, String plugin, boolean main, String[] permissions) {
+    public HelpEntry(String command, String description, String plugin, boolean main, String[] permissions, boolean visible) {
         this.command = command;
         this.description = description;
         this.plugin = plugin;
         this.main = main;
         this.permissions = permissions;
+        this.visible = visible;
         lineLength = process(this);
-        System.out.println(lineLength);
     }
 
     public HelpEntry(String command, String description, String plugin) {
-        this(command, description, plugin, false, new String[]{});
+        this(command, description, plugin, false, new String[]{}, true);
     }
 
     public HelpEntry(String command, String description, String plugin, boolean main) {
-        this(command, description, plugin, main, new String[]{});
+        this(command, description, plugin, main, new String[]{}, true);
     }
 
     public HelpEntry(String command, String description, String plugin, String[] permissions) {
-        this(command, description, plugin, false, permissions);
+        this(command, description, plugin, false, permissions, true);
     }
 
     public boolean playerCanUse(Player player) {
@@ -90,7 +91,7 @@ public class HelpEntry {
         if (sizeRemaining > descriptionSize) {
             return 1;
         } else {
-            return 1 + (int)Math.ceil((double)MinecraftFontWidthCalculator.getStringWidth("  " + entry.description)/width);
+            return 1 + (int) Math.ceil((double) MinecraftFontWidthCalculator.getStringWidth("  " + entry.description) / width);
         }
     }
 }

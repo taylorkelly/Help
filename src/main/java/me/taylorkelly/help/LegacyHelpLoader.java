@@ -19,7 +19,7 @@ public class LegacyHelpLoader {
         final Yaml yaml = new Yaml(new SafeConstructor());
         Map<String, Object> root;
         if (!extraHelp.exists()) {
-            HelpLogger.info("No extra help entries loaded");
+            //HelpLogger.info("No extra help entries loaded");
             return;
         }
         FileInputStream input = null;
@@ -67,10 +67,10 @@ public class LegacyHelpLoader {
                     }
                 }
                 convert(command, description, plugin, main, permissions);
-                list.customRegisterCommand(command, description, plugin, main, permissions.toArray(new String[]{}));
                 count++;
             }
-            HelpLogger.info(count + " extra help entries loaded");
+            HelpLogger.info(count + " extra help entries converted!");
+            extraHelp.delete();
         } catch (Exception ex) {
             HelpLogger.severe("Error!", ex);
         } finally {
@@ -92,7 +92,6 @@ public class LegacyHelpLoader {
                 Logger.getLogger(LegacyHelpLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         BetterConfig config = new BetterConfig(file);
         config.load();
 

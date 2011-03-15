@@ -35,7 +35,7 @@ public class HelpList {
         while (index < names.size() && ret.size() < size) {
             String currName = names.get(index);
             HelpEntry entry = mainHelpList.get(currName);
-            if (entry.playerCanUse(player)) {
+            if (entry.playerCanUse(player) && entry.visible) {
                 if (currentCount >= start) {
                     ret.add(entry);
                 } else {
@@ -54,7 +54,7 @@ public class HelpList {
     public double getMaxEntries(Player player) {
         int count = 0;
         for (HelpEntry entry : mainHelpList.values()) {
-            if (entry.playerCanUse(player)) {
+            if (entry.playerCanUse(player) && entry.visible) {
                 count++;
             }
         }
@@ -77,10 +77,10 @@ public class HelpList {
             while (index < names.size() && lineLength < size) {
                 String currName = names.get(index);
                 HelpEntry entry = pluginHelpList.get(plugin).get(currName);
-                if (entry.playerCanUse(player)) {
+                if (entry.playerCanUse(player) && entry.visible) {
                     if (currentCount >= start) {
                         ret.add(entry);
-                        lineLength+=entry.lineLength;
+                        lineLength += entry.lineLength;
                     } else {
                         currentCount++;
                     }
@@ -111,7 +111,7 @@ public class HelpList {
             for (int j = 0; j < commands.size(); j++) {
                 String command = commands.get(j);
                 HelpEntry entry = pluginSet.get(command);
-                if (entry.playerCanUse(player)) {
+                if (entry.playerCanUse(player) && entry.visible) {
                     //TODO Separate word matching
                     if (pluginName.equalsIgnoreCase(query)) {
                         pluginExactMatches.add(entry);
@@ -143,7 +143,7 @@ public class HelpList {
         if (pluginHelpList.containsKey(plugin)) {
             int count = 0;
             for (HelpEntry entry : pluginHelpList.get(plugin).values()) {
-                if (entry.playerCanUse(player)) {
+                if (entry.playerCanUse(player) && entry.visible) {
                     count++;
                 }
             }
@@ -184,20 +184,11 @@ public class HelpList {
     }
 
     public boolean registerCommand(String command, String description, String plugin, boolean main, String[] permissions) {
-        HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions);
+        HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions, true);
         if (main) {
             mainHelpList.put(command, entry);
         }
         saveEntry(plugin, entry);
-        return true;
-    }
-
-    public boolean customRegisterCommand(String command, String description, String plugin, boolean main, String[] permissions) {
-        HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions);
-        if (main) {
-            mainHelpList.put(command, entry);
-        }
-        customSaveEntry(plugin, entry);
         return true;
     }
 
@@ -247,5 +238,14 @@ public class HelpList {
 
     private void permaSaveEntry(HelpEntry entry) {
         savedList.add(entry);
+    }
+
+    public boolean customRegisterCommand(String command, String description, String plugin, boolean main, String[] permissions, boolean visible) {
+        HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions, visible);
+        if (main) {
+            mainHelpList.put(command, entry);
+        }
+        customSaveEntry(plugin, entry);
+        return true;
     }
 }
