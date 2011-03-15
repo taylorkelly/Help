@@ -90,7 +90,7 @@ public class HelpEntry {
         if (sizeRemaining > descriptionSize) {
             return 1;
         } else {
-            return 1 + (int)Math.ceil((double)descriptionSize/width);
+            return 1 + (int)Math.ceil((double)MinecraftFontWidthCalculator.getStringWidth("  " + entry.description)/width);
         }
     }
 }

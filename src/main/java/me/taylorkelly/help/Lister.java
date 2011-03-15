@@ -80,21 +80,10 @@ public class Lister {
                 entryBuilder.append(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
             } else if (sizeRemaining < descriptionSize) {
                 player.sendMessage(entryBuilder.toString());
-                player.sendMessage(entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
+                player.sendMessage("  " + entry.description.replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + descriptionColor.toString()));
             }
-
             player.sendMessage(entryBuilder.toString());
         }
-    }
-
-    /**
-     * Lob shit off that string till it fits.
-     */
-    private String substring(String name, int left) {
-        while (MinecraftFontWidthCalculator.getStringWidth(name) > left) {
-            name = name.substring(0, name.length() - 1);
-        }
-        return name;
     }
 
     public int getMaxPages(Player player) {
