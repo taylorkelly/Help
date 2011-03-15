@@ -1,14 +1,17 @@
 package me.taylorkelly.help;
 
+import org.angelsl.minecraft.randomshit.fontwidth.MinecraftFontWidthCalculator;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class HelpEntry {
+
     public String command;
     public String description;
     public String[] permissions;
     public boolean main;
     public String plugin;
+    public int lineLength;
 
     public HelpEntry(String command, String description, String plugin, boolean main, String[] permissions) {
         this.command = command;
@@ -16,6 +19,8 @@ public class HelpEntry {
         this.plugin = plugin;
         this.main = main;
         this.permissions = permissions;
+        lineLength = process(this);
+        System.out.println(lineLength);
     }
 
     public HelpEntry(String command, String description, String plugin) {
@@ -35,9 +40,9 @@ public class HelpEntry {
             return true;
         }
         for (String permission : permissions) {
-            if(permission.equalsIgnoreCase("OP") && player.isOp()) {
+            if (permission.equalsIgnoreCase("OP") && player.isOp()) {
                 return true;
-            } else if(HelpPermissions.permission(player, permission)) {
+            } else if (HelpPermissions.permission(player, permission)) {
                 return true;
             }
         }
@@ -63,5 +68,29 @@ public class HelpEntry {
         builder.append(description);
 
         return builder.toString();
+    }
+
+    private int process(HelpEntry entry) {
+        ChatColor commandColor = ChatColor.RED;
+        ChatColor descriptionColor = ChatColor.WHITE;
+        int width = 325;
+
+        StringBuilder entryBuilder = new StringBuilder();
+        entryBuilder.append(commandColor.toString());
+        entryBuilder.append("/");
+        entryBuilder.append(entry.command);
+        entryBuilder.append(ChatColor.WHITE.toString());
+        entryBuilder.append(" : ");
+        entryBuilder.append(descriptionColor.toString());
+        //Find remaining length left
+        int sizeRemaining = width - MinecraftFontWidthCalculator.getStringWidth(entryBuilder.toString());
+        entryBuilder = new StringBuilder(entryBuilder.toString().replace("[", ChatColor.GRAY.toString() + "[").replace("]", "]" + commandColor.toString()));
+
+        int descriptionSize = MinecraftFontWidthCalculator.getStringWidth(entry.description);
+        if (sizeRemaining > descriptionSize) {
+            return 1;
+        } else {
+            return 1 + (int)Math.ceil((double)descriptionSize/width);
+        }
     }
 }
