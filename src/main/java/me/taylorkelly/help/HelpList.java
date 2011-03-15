@@ -162,27 +162,6 @@ public class HelpList {
         return plugin;
     }
 
-    public boolean registerCommand(String command, String description, String plugin) {
-        HelpEntry entry = new HelpEntry(command, description, plugin);
-        saveEntry(plugin, entry);
-        return true;
-    }
-
-    public boolean registerCommand(String command, String description, String plugin, boolean main) {
-        HelpEntry entry = new HelpEntry(command, description, plugin, main);
-        if (main) {
-            mainHelpList.put(command, entry);
-        }
-        saveEntry(plugin, entry);
-        return true;
-    }
-
-    public boolean registerCommand(String command, String description, String plugin, String[] permissions) {
-        HelpEntry entry = new HelpEntry(command, description, plugin, permissions);
-        saveEntry(plugin, entry);
-        return true;
-    }
-
     public boolean registerCommand(String command, String description, String plugin, boolean main, String[] permissions) {
         HelpEntry entry = new HelpEntry(command, description, plugin, main, permissions, true);
         if (main) {
@@ -224,7 +203,7 @@ public class HelpList {
         mainHelpList = new HashMap<String, HelpEntry>();
         pluginHelpList = new HashMap<String, HashMap<String, HelpEntry>>();
 
-        LegacyHelpLoader.load(dataFolder, this);
+        HelpLoader.load(dataFolder, this);
 
         for (HelpEntry entry : savedList) {
             if (entry.main) {

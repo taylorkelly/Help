@@ -144,15 +144,15 @@ public class Help extends JavaPlugin {
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName());
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), false, new String[]{});
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), main, new String[]{});
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, String... permissions) {
-        return helpList.registerCommand(command, description, plugin.getDescription().getName(), permissions);
+        return helpList.registerCommand(command, description, plugin.getDescription().getName(), false, permissions);
     }
 
     public boolean registerCommand(String command, String description, Plugin plugin, boolean main, String... permissions) {
