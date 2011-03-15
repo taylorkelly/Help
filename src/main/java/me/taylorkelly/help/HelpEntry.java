@@ -113,9 +113,7 @@ public class HelpEntry {
         config.setProperty(node + ".command", command);
         config.setProperty(node + ".description", description);
         config.setProperty(node + ".plugin", plugin);
-        if (main) {
-            config.setProperty(node + ".main", main);
-        }
+        config.setProperty(node + ".main", main);
         if (permissions.length != 0) {
             config.setProperty(node + ".permissions", permissions);
         }
